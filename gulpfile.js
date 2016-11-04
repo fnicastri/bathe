@@ -1,15 +1,14 @@
 'use strict';
 
 /**
- * Gulp modules
+ * gulp modules
  */
 var gulp         = require('gulp');
 var newer        = require('gulp-newer');
 var plumber      = require('gulp-plumber');
-var browserSync  = require('browser-sync');
+var browsersync  = require('browser-sync').create();
 var sass         = require('gulp-sass');
 var autoprefixer = require('gulp-autoprefixer');
-var compass      = require('gulp-compass');
 var imagemin     = require('gulp-imagemin');
 var pngquant     = require('imagemin-pngquant');
 var browserify   = require('browserify');
@@ -20,21 +19,36 @@ var uglify       = require('gulp-uglify');
 var watch        = require('gulp-watch');
 
 // Load configurations set variables
-var config = require('./gulpconfig.json');
+var config = require('./batheconfig.json');
 var tasks = [];
+var build = [];
 var paths = {};
 var jsSrc = [];
 
-if (config.tasks.compass) {
-  config.tasks.sass = false;
-}
-
+/**
+ * All tasks
+ */
 Object.keys(config.tasks).forEach(function (key) {
   if (config.tasks[key]) {
     tasks.push(key);
   }
 });
 
+/**
+ * Build tasks
+ */
+build = tasks.concat();
+var index;
+['browsersync', 'watch'].forEach(function (value) {
+  index = build.indexOf(value);
+  if (index > -1) {
+    build.splice(index, 1);
+  }
+});
+
+/**
+ * Paths
+ */
 Object.keys(config.paths).forEach(function (key) {
   if (key != 'assets') {
     if (config.paths.assets === '') {
@@ -52,14 +66,14 @@ for (var i = 0; i <= config.js.src.length - 1; i++) {
 /**
  * Browser
  */
-gulp.task('browser-sync', function () {
-  browserSync({
+gulp.task('browsersync', function () {
+  return browsersync.init({
       proxy: config.siteurl
   });
 });
 
 gulp.task('browser-reload', function () {
-  browserSync.reload();
+  return browsersync.reload();
 });
 
 /**
@@ -74,26 +88,10 @@ gulp.task('sass', function () {
 });
 
 /**
- * Compass
- */
-gulp.task('compass', function () {
-  return gulp.src(paths.sass + '/**/*')
-    .pipe(plumber())
-    .pipe(compass({
-      config_file: config.compass.config,
-      style: config.compass.style,
-      comments: config.compass.comments,
-      css: paths.css,
-      sass: paths.sass,
-      image: paths.images
-    }));
-});
-
-/**
  * Imagemin
  */
 gulp.task('imagemin', function () {
-  return gulp.src(paths.imageSrc + '/**/*')
+  return gulp.src(paths.imagesSrc + '/**/*')
     .pipe(plumber())
     .pipe(newer(paths.images))
     .pipe(imagemin({
@@ -107,57 +105,43 @@ gulp.task('imagemin', function () {
 /**
  * Browserify and Watchify
  */
-gulp.task('browserify', function () {
-  return compile(false);
-});
+var b = browserify(jsSrc);
+
+function bundle() {
+  return b.bundle()
+    .pipe(source(config.js.dist))
+    .pipe(buffer())
+    .pipe(uglify())
+    .pipe(gulp.dest(paths.js));
+}
+
+gulp.task('browserify', bundle);
 
 gulp.task('watchify', function () {
-  return compile(true);
+  b = watchify(b);
+  b.on('update', bundle);
 });
-
-function compile(watching) {
-  var b = browserify(jsSrc);
-  if (watching) {
-    b = watchify(b);
-  }
-
-  function bundle() {
-    return b.bundle()
-      .pipe(source(config.js.dist))
-      .pipe(buffer())
-      .pipe(uglify())
-      .pipe(gulp.dest(paths.js));
-  }
-
-  b.on('update', function () {
-    bundle();
-  });
-
-  return bundle();
-}
 
 /**
  * Watch files for changes, recompile, and reload the browser.
  */
 gulp.task('watch', ['watchify'], function () {
   if (config.tasks.imagemin) {
-    watch(paths.imageSrc + '/**/*', function () {
+    watch(paths.imagesSrc + '/**/*', function () {
       gulp.start('imagemin');
     });
   }
 
-  if (config.tasks.compass) {
-    watch(paths.sass + '/**/*', function () {
-      gulp.start('compass');
-    });
-  } else if (config.tasks.sass) {
+  if (config.tasks.sass) {
     watch(paths.sass + '/**/*', function () {
       gulp.start('sass');
     });
   }
 
-  if (config.tasks['browser-sync']) {
+  if (config.tasks.browsersync) {
     watch([
+      '!./node_modules/**/*',
+      '!./README.md',
       './**/*.php',
       paths.css + '/**/*',
       paths.js + '/**/*',
@@ -169,7 +153,19 @@ gulp.task('watch', ['watchify'], function () {
 });
 
 /**
- * Default task, running just `gulp` will compile the sass,
- * bundle the js, launch BrowserSync & watch files.
+ * Build task, this will minify the images, compile the sass,
+ * bundle the js, but not launch BrowserSync and watch files.
+ */
+gulp.task('build', build);
+
+/**
+ * Default task, running just `gulp` will minify the images,
+ * compile the sass, bundle the js, launch BrowserSync, and
+ * watch files.
  */
 gulp.task('default', tasks);
+
+/**
+ * Test
+ */
+gulp.task('test', ['build']);

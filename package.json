@@ -1,44 +1,53 @@
 {
   "name": "bathe",
-  "version": "0.2.0",
-  "description": "Blank WordPress theme for Gulp",
+  "version": "0.3.3",
+  "description": "WordPress starter theme including full setup for gulp, Sass, Autoprefixer, Bourbon/Neat/Bitters, Browserify, imagemin, Browsersync, etc.",
   "main": "gulpfile.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "gulp",
+    "browserify": "gulp browserify",
+    "browsersync": "gulp browsersync",
+    "build": "gulp build",
+    "imagemin": "gulp imagemin",
+    "sass": "gulp sass",
+    "test": "gulp test",
+    "watch": "gulp watch"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ixkaito/bathe.git"
+    "url": "https://github.com/wp-bathe/bathe.git"
   },
   "keywords": [
     "WordPress",
-    "Gulp",
+    "gulp",
     "Sass",
     "Autoprefixer",
-    "Compass",
+    "Bourbon",
+    "Neat",
+    "Bitters",
+    "imagemin",
     "Browserify",
     "Watchify",
-    "Browser-sync"
+    "Browsersync"
   ],
   "author": "Kite",
-  "license": "(GPL-3.0 OR BSD-2-Clause)",
+  "license": "GPL-2.0+",
   "bugs": {
-    "url": "https://github.com/ixkaito/bathe/issues"
+    "url": "https://github.com/wp-bathe/bathe/issues"
   },
-  "homepage": "https://github.com/ixkaito/bathe",
+  "homepage": "https://github.com/wp-bathe/bathe",
   "devDependencies": {
-    "browser-sync": "^2.11.1",
-    "browserify": "^13.0.0",
-    "gulp": "^3.9.0",
+    "browser-sync": "^2.12.12",
+    "browserify": "^13.0.1",
+    "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.0",
-    "gulp-compass": "^2.1.0",
-    "gulp-imagemin": "^2.4.0",
-    "gulp-newer": "^1.1.0",
-    "gulp-plumber": "^1.0.1",
-    "gulp-sass": "^2.1.1",
-    "gulp-uglify": "^1.5.1",
-    "gulp-watch": "^4.3.5",
-    "imagemin-pngquant": "^4.2.0",
+    "gulp-imagemin": "^3.0.1",
+    "gulp-newer": "^1.2.0",
+    "gulp-plumber": "^1.1.0",
+    "gulp-sass": "^2.3.1",
+    "gulp-uglify": "^1.5.3",
+    "gulp-watch": "^4.3.6",
+    "imagemin-pngquant": "^5.0.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
     "watchify": "^3.7.0"

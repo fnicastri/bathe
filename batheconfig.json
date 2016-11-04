@@ -2,11 +2,10 @@
   "siteurl": "wocker.dev",
 
   "tasks": {
-    "sass":         true,
-    "compass":      false,
     "browserify":   true,
+    "browsersync":  true,
     "imagemin":     true,
-    "browser-sync": true,
+    "sass":         true,
     "watch":        true
   },
 
@@ -17,7 +16,7 @@
     "images":    "images",
     "sass":      "_sass",
     "jsSrc":     "_js",
-    "imageSrc": "_images"
+    "imagesSrc": "_images"
   },
 
   "sass": {
@@ -30,12 +29,6 @@
       "last 2 versions",
       "Firefox ESR"
     ]
-  },
-
-  "compass": {
-    "config":   "./config.rb",
-    "style":    "compressed",
-    "comments": false
   },
 
   "js": {

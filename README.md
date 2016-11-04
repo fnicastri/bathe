@@ -1,33 +1,26 @@
-# Bathe
+# Bathe [![GitHub release](https://img.shields.io/github/release/wp-bathe/bathe.svg)](https://github.com/wp-bathe/bathe/releases) [![license](https://img.shields.io/github/license/wp-bathe/bathe.svg?maxAge=2592000)](https://github.com/wp-bathe/bathe/blob/master/LICENSE)
 
-__WordPress Starter Theme for Gulp__
-
-## Version
-
-0.2.0
+__WordPress starter theme including full setup for gulp, Sass, Autoprefixer, Bourbon/Neat/Bitters, Browserify, Imagemin, Browsersync, etc.__
 
 ## Features
 
-- Gulp
+- gulp
 - Sass
 - Autoprefixer
-- Bourbon
-- Neat
-- Bitters
-- Compass
-- Imagemin
+- Bourbon/Neat/Bitters
 - Browserify
 - Watchify
 - UglifyJS
-- Browser-Sync
+- Imagemin
+- Browsersync
 
 Bourbon is a lightweight Sass framework. If you don't use it, it will do nothing to your CSS file.
 
 ## Usage
 
-If you don't use Gulp, Sass, or Compass, you can just use this theme like others. Nothing else is necessary except WordPress Environment.
+If you don't use gulp or Sass, you can just use this theme like others. Nothing else is necessary except WordPress environment.
 
-### Using Gulp to develop in Bathe
+### Using gulp to develop in Bathe
 
 #### 1 Install Node.js
 
@@ -35,27 +28,13 @@ If you don't use Gulp, Sass, or Compass, you can just use this theme like others
 
 Instead, the easiest way is using Homebrew.
 
-```bash
+```shell
 $ brew install node
 ```
 
-#### 2. Install Gulp globally
+#### 2 Clone this repo into your WordPress theme directory
 
-```bash
-$ npm install --global gulp
-```
-
-#### 3. Install Sass and Compass (Optional)
-
-```bash
-$ gem install compass
-```
-
-This will install both Ruby Sass and Compass. If you only use Sass but not Compass, the Ruby Sass is not require.
-
-#### 4 Clone this repo in WordPress theme directory
-
-```bash
+```shell
 $ git clone https://github.com/ixkaito/bathe.git && cd bathe
 ```
 
@@ -63,25 +42,31 @@ You can also download the .zip file from the following URL.
 
 [https://github.com/wp-bathe/bathe/archive/master.zip](https://github.com/wp-bathe/bathe/archive/master.zip)
 
-#### 5. Install Node modules
+#### 3. Install Node modules
 
-```bash
+```shell
 $ npm install
 ```
 
-#### 6. Change the site url
+#### 4. Change the site url
 
-Change `siteurl` in `gulpconfig.json` for your environment. The default siteurl is `wocker.dev` for [Wocker](http://wckr.github.io/).
+Change `siteurl` in `batheconfig.json` for your environment. The default siteurl is `wocker.dev` for [Wocker](http://wckr.github.io/).
 
-#### 7. Run Gulp
+#### 5. Run the package's start script
 
+```shell
+$ npm start
 ```
+
+Or, if you have installed gulp globally, this is also available and is same as `npm start`.
+
+```shell
 $ gulp
 ```
 
 ### Configurations and Defaults
 
-You can change the configuration by editing `gulpconfig.json`
+You can change the configuration by editing `batheconfig.json`
 
 #### siteurl
 
@@ -93,20 +78,13 @@ example: `"localhost:8888"`
 
 #### tasks
 
-Tasks to run when you exec `gulp` command.
+Tasks to run when you exec `npm start` or `gulp` command.
 
 ##### sass
 
 To compile Sass.
 
 default: `true`  
-options: boolean (`true` / `false`)
-
-##### compass
-
-To use compass. If `true`, Bathe will ignore the above setting of sass.
-
-default: `false`  
 options: boolean (`true` / `false`)
 
 ##### browserify
@@ -123,7 +101,7 @@ To minify images.
 default: `true`  
 options: boolean (`true` / `false`)
 
-##### browser-sync
+##### browsersync
 
 To keep browsers in sync with file changes.
 
@@ -148,7 +126,7 @@ example: `"./"` (directly under the theme direcotry)
 
 ##### css
 
-The CSS destination directory for Sass or Compass.
+The CSS destination directory for Sass.
 
 default: `"css"`  
 options: string  
@@ -186,7 +164,7 @@ default: `"_js"`
 options: string  
 example: `"src/js`"
 
-##### imageSrc
+##### imagesSrc
 
 The directory of image source files to compress.
 
@@ -216,32 +194,6 @@ List of browsers, which are supported in your theme.
 default: `["> 1%", "last 2 versions", "Firefox ESR"]`  
 options: array. See [Browserslist docs](https://github.com/ai/browserslist#queries) for available queries.
 example: `["> 5%", "last 2 versions", "IE 8"]`
-
-#### compass
-
-Compass settings.
-
-##### config
-
-The config file for Compass.
-
-default: `"./config.rb"`  
-options: string  
-example: `"./myconfig.rb"`
-
-##### style
-
-The output style of Compass.
-
-default: `"compressed"`  
-options: `"expanded"`, `"nested"`, `"compact"`, `"compressed"`
-
-##### comments
-
-Show line comments or not.
-
-default: `false`  
-options: boolean (`true` / `false`)
 
 #### js
 
